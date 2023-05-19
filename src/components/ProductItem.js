@@ -46,7 +46,7 @@ const ProductItem = () => {
     })
 
     return (
-        <div className={'container-fluid'}>
+        <div className={'container-fluid mt-5'}>
             <div className="row">
                 <div className="col-6 text-center">
                     <img className={'w-50'} src={productItem.image}/>

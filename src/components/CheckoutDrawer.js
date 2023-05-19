@@ -5,9 +5,9 @@ import Divider from '@mui/material/Divider';
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import {Badge, Button, Card, CardActions, CardContent, CardMedia, styled, Typography} from "@mui/material";
 
-import jeansPic from '../assets/images/jeans.jpg'
 
-export default function TemporaryDrawer() {
+
+export default function TemporaryDrawer({cartItems}) {
 
     const [state, setState] = useState({
         top: false,
@@ -17,18 +17,6 @@ export default function TemporaryDrawer() {
     });
 
 
-    const cardItems = [
-        {
-            name: 'Men Jeans',
-            description: 'Whatever you want to write here',
-            price: '9.99$'
-        },
-        {
-            name: 'Men Jeans',
-            description: 'Whatever you want to write here',
-            price: '9.99$'
-        }
-    ]
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -38,17 +26,19 @@ export default function TemporaryDrawer() {
         setState({...state, [anchor]: open});
     };
 
-    const cartItems = cardItems.map((item) => {
+    console.log(cartItems)
+
+    const items = cartItems.map((item) => {
         return (
-            <Card sx={{minWidth: 345}}>
+            <Card sx={{maxWidth: 245}}>
                 <CardMedia
                     sx={{height: 240}}
-                    image={jeansPic}
+                    image={item.image}
                     title="green iguana"
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        {item.name}
+                        {item.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         {item.description}
@@ -73,7 +63,7 @@ export default function TemporaryDrawer() {
             onClick={toggleDrawer(anchor, false)}
             onKeyDown={toggleDrawer(anchor, false)}
         >
-            {cartItems}
+            {items}
         </Box>
     );
 

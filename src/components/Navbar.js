@@ -8,7 +8,7 @@ import TemporaryDrawer from "./CheckoutDrawer";
 import {Badge, styled} from "@mui/material";
 
 
-const Navbar = () => {
+const Navbar = ({cartItems}) => {
 
     const StyledBadge = styled(Badge)(({theme}) => ({
         '& .MuiBadge-badge': {
@@ -52,7 +52,7 @@ const Navbar = () => {
                             <StyledBadge badgeContent={4} color="secondary">
                                 <FavoriteBorderOutlinedIcon className={'mx-4'}/>
                             </StyledBadge>
-                            <TemporaryDrawer/>
+                            <TemporaryDrawer cartItems={cartItems}/>
                         </div>
                     </div>
                 </div>

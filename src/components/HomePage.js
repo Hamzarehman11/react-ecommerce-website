@@ -1,25 +1,20 @@
 import React from "react";
+import {useState} from "react";
 
 
-import Header from "./Header";
-import Footer from "./Footer";
 import BannerCarousel from "./BannerCarousel";
 import ProductsList from "./ProductsList";
-import ProductItem from "./ProductItem";
-import CartPage from "./CartPage";
 
 
-const HomePage = () => {
+
+const HomePage = ({productList, handleAddToCart}) => {
+
 
 
     return (
         <>
-            <Header />
-            <BannerCarousel />
-            <ProductsList />
-            {/*<ProductItem />*/}
-            {/*<CartPage />*/}
-            <Footer />
+            <BannerCarousel/>
+            <ProductsList productList={productList} handleAddToCart={handleAddToCart}  />
         </>
     )
 }

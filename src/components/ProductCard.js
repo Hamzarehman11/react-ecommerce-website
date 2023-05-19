@@ -4,7 +4,9 @@ import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded
 
 
 
-const ProductCard = ({image, title, price, maxWidth, minWidth, maxHeight, minHeight, mediaHeight}) => {
+const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight, minHeight, mediaHeight, handleAddToCart}) => {
+
+
 
     return (
         <Card className={'product-card'} sx={{ maxWidth ,minWidth, maxHeight, minHeight , marginLeft: 5, marginTop: 5 }}>
@@ -25,7 +27,7 @@ const ProductCard = ({image, title, price, maxWidth, minWidth, maxHeight, minHei
             <CardActions>
                 <FavoriteBorderRoundedIcon color={'warning'} />
                 {/*<FavoriteRoundedIcon color={'warning'} />*/}
-                <Button className={'mx-3'} size="small" variant={'contained'}>Add to Cart</Button>
+                <Button onClick={()=>handleAddToCart(elemId)} className={'mx-3'} size="small" variant={'contained'}>Add to Cart</Button>
             </CardActions>
         </Card>
     )
