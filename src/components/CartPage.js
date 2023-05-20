@@ -52,6 +52,7 @@ const CartPage = ({cartItems}) => {
     //     }
     // ]
 
+
     const cartDetails = cartItems.map((elem) => {
 
         return (

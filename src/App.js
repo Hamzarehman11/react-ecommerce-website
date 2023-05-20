@@ -13,6 +13,7 @@ import axios from "axios";
 import {useEffect} from "react";
 
 
+
 function App() {
 
     const [productList, setProductList] = useState([]);
@@ -20,11 +21,12 @@ function App() {
     const [cartItems, setCartItems] = useState([]);
 
     const handleAddToCart = (id) => {
-        // setCartItems(productList.filter((elem)=> elem.id === id))
-        // setCartItems((prevState) => {...prevState,productList.filter((elem)=> elem.id === id)})
+        let cartProd = productList.filter((elem)=> elem.id === id);
+        const singleObject = Object.assign({}, ...cartProd);
+        setCartItems(prevState => [...prevState, singleObject])
     };
 
-    console.log(cartItems)
+
 
 
     const fetchProducts = () => {
