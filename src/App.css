@@ -271,6 +271,10 @@
     background-color: #403e3f;
 }
 
+.drawer-btn{
+    width: 70%;
+}
+
 .payment-button-google{
     border: none;
     padding: 0;
