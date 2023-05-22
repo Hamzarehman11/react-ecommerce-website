@@ -18,7 +18,7 @@ const Footer = () => {
 
     const discountsLink = footerLinks.specialDiscounts.map((elem) => {
         return (
-            <ul className={'text-start p-0'}>
+            <ul key={elem} className={'text-start p-0'}>
                 <li className={'footer-links'}>{elem}</li>
             </ul>
         )
@@ -26,7 +26,7 @@ const Footer = () => {
 
     const supportLink = footerLinks.support.map((elem) => {
         return (
-            <ul className={'text-start p-0'}>
+            <ul key={elem} className={'text-start p-0'}>
                 <li className={'footer-links'}>{elem}</li>
             </ul>
         )
@@ -34,7 +34,7 @@ const Footer = () => {
 
     const companyLink = footerLinks.company.map((elem) => {
         return (
-            <ul className={'text-start p-0'}>
+            <ul key={elem} className={'text-start p-0'}>
                 <li className={'footer-links'}>{elem}</li>
             </ul>
         )
@@ -42,7 +42,7 @@ const Footer = () => {
 
     const storeLink = footerLinks.store.map((elem) => {
         return (
-            <ul className={'text-start p-0'}>
+            <ul key={elem} className={'text-start p-0'}>
                 <li className={'footer-links'}>{elem}</li>
             </ul>
         )

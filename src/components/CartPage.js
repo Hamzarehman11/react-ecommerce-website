@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Button, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import DataContext from "../Context/data";
 
 
-const CartPage = ({cartItems}) => {
+const CartPage = () => {
+
+    const {cartItems, handleRemoveFromCart} = useContext(DataContext)
 
     const [quantity, setQuantity] = React.useState('1');
 
@@ -18,17 +21,16 @@ const CartPage = ({cartItems}) => {
 
     const qtyMenu = qty.map((elem) => {
         return (
-            <MenuItem value={elem}>{elem}</MenuItem>
+            <MenuItem key={elem} value={elem}>{elem}</MenuItem>
         )
     })
-
 
 
     const cartDetails = cartItems.map((elem) => {
 
         return (
             <>
-                <div className="row mt-3">
+                <div key={elem.id} className="row mt-3">
                     <div className="col-6 text-center">
                         <img className={'w-50'} src={elem.image} alt={elem.image}/>
                     </div>
@@ -62,7 +64,8 @@ const CartPage = ({cartItems}) => {
                                 <div>
                                     <FavoriteBorderRoundedIcon color={'warning'}/><span className={'mx-2'}>Add to Favorites</span>
                                 </div>
-                                <Button size="small" color={'error'} variant={'contained'}>Remove</Button>
+                                <Button onClick={() => handleRemoveFromCart(elem.id)} size="small" color={'error'}
+                                        variant={'contained'}>Remove</Button>
                             </div>
                             <div className="col-6 text-end">
                                 <span>Total: </span>

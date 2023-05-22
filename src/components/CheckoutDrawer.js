@@ -6,9 +6,14 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import {Badge, Button, Card, CardActions, CardContent, CardMedia, styled, Typography} from "@mui/material";
 
 import {useNavigate} from 'react-router-dom'
+import {useContext} from "react";
+import DataContext from "../Context/data";
 
 
-export default function TemporaryDrawer({cartItems}) {
+export default function TemporaryDrawer() {
+
+
+    const {cartItems,handleRemoveFromCart} = useContext(DataContext);
 
     const navigate = useNavigate();
     const [state, setState] = useState({
@@ -31,7 +36,7 @@ export default function TemporaryDrawer({cartItems}) {
     const items = cartItems.map((item) => {
         return (
             <>
-                <Card sx={{maxWidth: 345, marginTop: "15px", borderBottom: '2px solid black'}}>
+                <Card key={item.id} sx={{maxWidth: 345, marginTop: "15px", borderBottom: '2px solid black'}}>
                     <CardMedia
                         sx={{height: 200, transform: "scale(0.8)"}}
                         image={item.image}
@@ -41,18 +46,19 @@ export default function TemporaryDrawer({cartItems}) {
                         <Typography gutterBottom variant="h5" component="div">
                             {item.title}
                         </Typography>
-                        <Typography variant="body2" color="text.dark"  component="div" sx={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
+                        <Typography variant="body2" color="text.dark" component="div"
+                                    sx={{display: 'flex', justifyContent: 'space-between', fontWeight: 'bold'}}>
                             ${item.price}
-                        <Typography variant="body2" color="text.dark">
-                            Qty: {1}
+                            <Typography variant="body2" color="text.dark">
+                                Qty: {1}
+                            </Typography>
                         </Typography>
-                        </Typography>
-                        <Typography  variant="body2">
-                           Subtotal: ${item.price}
+                        <Typography variant="body2">
+                            Subtotal: ${item.price}
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" color={'error'} variant={'contained'}>Remove</Button>
+                        <Button onClick={()=>handleRemoveFromCart(item.id)} size="small" color={'error'} variant={'contained'}>Remove</Button>
                     </CardActions>
                 </Card>
             </>
@@ -63,7 +69,7 @@ export default function TemporaryDrawer({cartItems}) {
 
     const list = () => (
         <Box
-            sx={{width: 650, maxHeight: 855, paddingLeft: 5, paddingRight: 25, overflowX:'hidden', overflowY:'auto'}}
+            sx={{width: 650, maxHeight: 855, paddingLeft: 5, paddingRight: 25, overflowX: 'hidden', overflowY: 'auto'}}
             role="presentation"
         >
             {items}
@@ -86,7 +92,7 @@ export default function TemporaryDrawer({cartItems}) {
         },
     }));
 
-    console.log(state)
+
 
     return (
         <React.Fragment key={'right'}>
@@ -99,16 +105,25 @@ export default function TemporaryDrawer({cartItems}) {
                 onClose={toggleDrawer('right', false)}
             >
                 {list('top')}
-                <div className={'mt-5'}>
-                    <Divider color={'black'} />
-                    <div className={'p-3 px-5 d-flex justify-content-between align-items-center'}>
-                        <h5 >Estimated Total</h5>
-                        <h5 className={'fw-bolder'} >$750</h5>
-                    </div>
-                </div>
-                <div className={'mt-1 mb-2 d-flex flex-column justify-content-between align-items-center gap-3'}>
-                    <button className={'check-out-btn drawer-btn mt-3'} onClick={handleClick} >Checkout</button>
-                </div>
+              <div className={'drawer-checkout-sec'}>
+                  <div className={'mt-5'}>
+                      <Divider color={'black'}/>
+                      {cartItems.length !== 0 &&
+                          <div className={'p-3 px-5 d-flex justify-content-between align-items-center'}>
+                              <h5>Estimated Total</h5>
+                              <h5 className={'fw-bolder'}>$750</h5>
+                          </div>}
+                      {cartItems.length === 0 &&
+                          <div className={'p-3 px-5 d-flex flex-column justify-content-between align-items-center'}>
+                              <h5 className={'fw-bolder'}>Your Shopping Bag is Empty</h5>
+                              <p>Please Add to Your Cart</p>
+                          </div>}
+                  </div>
+                  {cartItems.length !== 0 &&
+                      <div className={'mt-1 mb-2 d-flex flex-column justify-content-between align-items-center gap-3'}>
+                          <button className={'check-out-btn drawer-btn mt-3'} onClick={handleClick}>Checkout</button>
+                      </div>}
+              </div>
             </Drawer>
         </React.Fragment>
     );

@@ -9,7 +9,8 @@ import Navbar from "./Navbar";
 import {Button, styled} from "@mui/material";
 
 
-const Header = ({ cartItems }) => {
+const Header = () => {
+
 
     const SignInButton = styled(Button)(({theme}) => ({
         color: 'black',
@@ -51,7 +52,7 @@ const Header = ({ cartItems }) => {
                     </div>
                 </div>
             </div>
-            <Navbar cartItems={cartItems}/>
+            <Navbar/>
         </>
     )
 }

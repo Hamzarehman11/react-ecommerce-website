@@ -1,17 +1,20 @@
-import React, {useEffect, useState} from 'react'
-import axios from "axios";
+import React, {useContext} from 'react'
 import ProductCard from "./ProductCard";
+import DataContext from "../Context/data";
 
 
-const ProductsList = ({productList, handleAddToCart}) => {
+const ProductsList = () => {
 
+
+    const {productList} = useContext(DataContext);
 
     const productCard = productList.map((elem) => {
 
         return (
 
-            <ProductCard elemId={elem.id}  title={elem.title} price={elem.price} image={elem.image} minWidth={345} maxWidth={345}
-                         maxHeight={500} minHeight={500} mediaHeight={340} handleAddToCart={handleAddToCart} />
+            <ProductCard key={elem.id} elemId={elem.id} title={elem.title} price={elem.price} image={elem.image} minWidth={345}
+                         maxWidth={345}
+                         maxHeight={500} minHeight={500} mediaHeight={340} />
         )
     });
 

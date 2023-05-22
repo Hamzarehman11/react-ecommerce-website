@@ -1,20 +1,25 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import {useState} from "react";
 
 
 import BannerCarousel from "./BannerCarousel";
 import ProductsList from "./ProductsList";
+import dataContext from "../Context/data";
 
 
 
-const HomePage = ({productList, handleAddToCart}) => {
+const HomePage = () => {
 
+    const {fetchProducts} = useContext(dataContext)
 
+    useEffect(()=>{
+        fetchProducts();
+    },[])
 
     return (
         <>
             <BannerCarousel/>
-            <ProductsList productList={productList} handleAddToCart={handleAddToCart}  />
+            <ProductsList  />
         </>
     )
 }
