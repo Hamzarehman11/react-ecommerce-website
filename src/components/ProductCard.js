@@ -1,15 +1,18 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {Button, Card, CardActions, CardContent, CardMedia, Typography} from "@mui/material";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import DataContext from "../Context/data";
 
 
 const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight, minHeight, mediaHeight}) => {
 
 
-    const {cartItems, handleAddToCart, handleRemoveFromCart} = useContext(DataContext);
+    const {cartItems, handleAddToCart, handleRemoveFromCart, handleAddToFavourites, handleRemoveFromFavourites,
+        isFavourite, handleTotalPayment} = useContext(DataContext);
 
     const [inCart, setInCart] = useState(false);
+    const [liked, setLiked] = useState(false);
 
     const handleInCart = () => {
         if (cartItems) {
@@ -22,19 +25,43 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
         }
     }
 
-    const handleRemove = () => {
-        handleInCart();
-        handleRemoveFromCart();
+    const handleIsFavourite = () => {
+        if (isFavourite) {
+            let check = isFavourite.findIndex((elem) => elem.id === elemId)
+            if (check === -1) {
+                setLiked(false)
+            } else {
+                setLiked(true)
+            }
+        }
     }
 
-    const handleAdd = (id) => {
+    const handleRemoveCartItem = (id) => {
+        handleInCart();
+        handleRemoveFromCart(id);
+        handleTotalPayment();
+    };
+
+    const handleRemoveFavourite = (id) => {
+        handleIsFavourite();
+        handleRemoveFromFavourites(id);
+    };
+
+    const handleAddCartItem = (id) => {
         handleInCart()
         handleAddToCart(id);
-    }
+    };
+
+    const handleAddFavourite = (id) => {
+        handleIsFavourite();
+        handleAddToFavourites(id);
+    };
 
     useEffect(() => {
         handleInCart();
-    }, [cartItems])
+        handleIsFavourite();
+        handleTotalPayment();
+    }, [cartItems,isFavourite])
 
 
     return (
@@ -54,12 +81,12 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
                 </Typography>
             </CardContent>
             <CardActions>
-                <FavoriteBorderRoundedIcon color={'warning'}/>
-                {/*<FavoriteRoundedIcon color={'warning'} />*/}
+                {!liked && <FavoriteBorderRoundedIcon onClick={() => handleAddFavourite(elemId)} color={'warning'}/>}
+                {liked && <FavoriteOutlinedIcon onClick={() => handleRemoveFavourite(elemId)} color={'warning'}/>}
                 {!inCart &&
-                    <Button onClick={() => handleAdd(elemId)} className={'mx-3'} size="small" variant={'contained'}>Add
+                    <Button onClick={() => handleAddCartItem(elemId)} className={'mx-3'} size="small" variant={'contained'}>Add
                         to Cart</Button>}
-                {inCart && <Button onClick={handleRemove} className={'mx-3'} color={'error'} size="small"
+                {inCart && <Button onClick={()=>handleRemoveCartItem(elemId)} className={'mx-3'} color={'error'} size="small"
                                    variant={'contained'}>Remove from Cart</Button>}
             </CardActions>
         </Card>

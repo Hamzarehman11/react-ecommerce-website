@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -8,9 +8,13 @@ import DataContext from "../Context/data";
 
 const CartPage = () => {
 
-    const {cartItems, handleRemoveFromCart} = useContext(DataContext)
+    const {cartItems, handleRemoveFromCart, estimatedTotal, handleTotalPayment} = useContext(DataContext);
 
-    const [quantity, setQuantity] = React.useState('1');
+    const [quantity, setQuantity] = useState(1);
+    const [estimatedTax, setEstimatedTax] = useState(0);
+    const [unitItemPrice, setUnitItemPrice] = useState(0);
+
+    const [copyCart,  setCopyCart] = useState(cartItems)
 
     const handleChange = (event) => {
         setQuantity(event.target.value);
@@ -23,10 +27,45 @@ const CartPage = () => {
         return (
             <MenuItem key={elem} value={elem}>{elem}</MenuItem>
         )
-    })
+    });
+
+    const handleEstimatedTax = () => {
+        let tax = (estimatedTotal*0.16);
+        setEstimatedTax(tax)
+    }
+
+    useEffect(()=>{
+        handleTotalPayment();
+        handleEstimatedTax();
+    });
 
 
-    const cartDetails = cartItems.map((elem) => {
+
+
+    const handleItemQty = (event,id) => {
+        const selectedQuantity = event.target.value;
+        const currentItem = cartItems.find((item) => item.id === id);// Assuming elem is the current item in the cartDetails loop
+        const pricePerItem = currentItem.price; // Get the base price of the item
+        const itemUnitPrice = pricePerItem * selectedQuantity; // Calculate the unit price based on the quantity
+        setUnitItemPrice(itemUnitPrice); // Set the unit price in state
+        setQuantity(selectedQuantity);
+        setCopyCart((prevItems) =>
+            prevItems.map((item) =>
+                item.id === id ? { ...item, quantity: selectedQuantity, totalPrice:unitItemPrice } : item
+            )
+        );
+
+        // setCopyCart(updatedArray)
+        // console.log(updatedArray)
+    };
+
+
+
+    // console.log(cartItems)
+    // console.log(unitItemPrice)
+    // console.log(quantity)
+
+    const cartDetails = copyCart.map((elem) => {
 
         return (
             <>
@@ -44,13 +83,13 @@ const CartPage = () => {
                                 <div>
                                     <Box sx={{maxWidth: 110}}>
                                         <FormControl fullWidth>
-                                            <InputLabel id="demo-simple-select-label">Qty</InputLabel>
+                                            <InputLabel id="item-qty">Qty</InputLabel>
                                             <Select
                                                 labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={quantity}
+                                                id="item-qty"
+                                                value={elem.quantity}
                                                 label="Age"
-                                                onChange={handleChange}
+                                                onChange={(event)=>handleItemQty(event,elem.id)}
                                             >
                                                 {qtyMenu}
                                             </Select>
@@ -69,7 +108,7 @@ const CartPage = () => {
                             </div>
                             <div className="col-6 text-end">
                                 <span>Total: </span>
-                                <span className={'cart-total-item-price'}>${elem.price}</span>
+                                <span className={'cart-total-item-price'}>${elem.totalPrice}</span>
                             </div>
                         </div>
                     </div>
@@ -104,7 +143,7 @@ const CartPage = () => {
                         <div className="col-12">
                             <div className={'d-flex justify-content-between'}>
                                 <p className={'payment-summary-labels'}>Items</p>
-                                <p className={'payment-summary-value'}>$ 10</p>
+                                <p className={'payment-summary-value'}>$ {estimatedTotal}</p>
                             </div>
                             <div className={'d-flex justify-content-between'}>
                                 <p className={'payment-summary-labels'}>Shipping Cost</p>
@@ -114,11 +153,14 @@ const CartPage = () => {
                     </div>
                     <div className="row">
                         <div className="col-12">
-                            <p className={'payment-summary-labels'}>Estimated Tax</p>
+                            <div className={'d-flex justify-content-between'}>
+                                <p className={'payment-summary-labels'}>Estimated Tax</p>
+                                <p className={'payment-summary-value'}>$ {estimatedTax}</p>
+                            </div>
                             <Divider color={'black'}/>
                             <div className={'d-flex justify-content-between'}>
                                 <p className={'payment-summary-total mt-4'}>Total Cost</p>
-                                <p className={'payment-summary-value mt-4'}>$ 10</p>
+                                <p className={'payment-summary-value mt-4'}>$ {estimatedTotal+estimatedTax}</p>
                             </div>
                         </div>
                     </div>

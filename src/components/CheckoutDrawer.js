@@ -13,7 +13,7 @@ import DataContext from "../Context/data";
 export default function TemporaryDrawer() {
 
 
-    const {cartItems,handleRemoveFromCart} = useContext(DataContext);
+    const {cartItems,handleRemoveFromCart,estimatedTotal, handleTotalPayment} = useContext(DataContext);
 
     const navigate = useNavigate();
     const [state, setState] = useState({
@@ -30,6 +30,8 @@ export default function TemporaryDrawer() {
         }
 
         setState({...state, [anchor]: open});
+        handleTotalPayment();
+
     };
 
 
@@ -94,6 +96,8 @@ export default function TemporaryDrawer() {
 
 
 
+
+
     return (
         <React.Fragment key={'right'}>
             <StyledBadge badgeContent={cartItems.length} color="secondary">
@@ -111,7 +115,7 @@ export default function TemporaryDrawer() {
                       {cartItems.length !== 0 &&
                           <div className={'p-3 px-5 d-flex justify-content-between align-items-center'}>
                               <h5>Estimated Total</h5>
-                              <h5 className={'fw-bolder'}>$750</h5>
+                              <h5 className={'fw-bolder'}>${estimatedTotal}</h5>
                           </div>}
                       {cartItems.length === 0 &&
                           <div className={'p-3 px-5 d-flex flex-column justify-content-between align-items-center'}>

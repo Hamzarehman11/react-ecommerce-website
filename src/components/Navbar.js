@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -6,10 +6,12 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 
 import TemporaryDrawer from "./CheckoutDrawer";
 import {Badge, styled} from "@mui/material";
+import DataContext from "../Context/data";
 
 
 const Navbar = () => {
 
+    const { isFavourite } = useContext(DataContext);
 
     const StyledBadge = styled(Badge)(({theme}) => ({
         '& .MuiBadge-badge': {
@@ -50,7 +52,7 @@ const Navbar = () => {
                                    placeholder={"What are you looking for?"}/>
                         </div>
                         <div className="col-4">
-                            <StyledBadge badgeContent={4} color="secondary">
+                            <StyledBadge badgeContent={isFavourite.length} color="secondary">
                                 <FavoriteBorderOutlinedIcon className={'mx-4'}/>
                             </StyledBadge>
                             <TemporaryDrawer/>
