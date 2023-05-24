@@ -6,7 +6,11 @@
 }
 
 
+a{
+    list-style: none;
+    text-decoration: none;
 
+}
 
 
 /*<-----------------Header---------------------------------->*/
@@ -54,6 +58,11 @@
 
 /*<-----------------Navbar---------------------------------->*/
 
+
+.logo{
+    width: 105px;
+    height: 105px;
+}
 
 .nav-links h6{
     margin: 0;

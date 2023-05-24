@@ -8,8 +8,10 @@ import DataContext from "../Context/data";
 const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight, minHeight, mediaHeight}) => {
 
 
-    const {cartItems, handleAddToCart, handleRemoveFromCart, handleAddToFavourites, handleRemoveFromFavourites,
-        isFavourite, handleTotalPayment} = useContext(DataContext);
+    const {
+        cartItems, handleAddToCart, handleRemoveFromCart, handleAddToFavourites, handleRemoveFromFavourites,
+        isFavourite, handleTotalPayment
+    } = useContext(DataContext);
 
     const [inCart, setInCart] = useState(false);
     const [liked, setLiked] = useState(false);
@@ -61,7 +63,7 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
         handleInCart();
         handleIsFavourite();
         handleTotalPayment();
-    }, [cartItems,isFavourite])
+    }, [cartItems, isFavourite])
 
 
     return (
@@ -84,10 +86,12 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
                 {!liked && <FavoriteBorderRoundedIcon onClick={() => handleAddFavourite(elemId)} color={'warning'}/>}
                 {liked && <FavoriteOutlinedIcon onClick={() => handleRemoveFavourite(elemId)} color={'warning'}/>}
                 {!inCart &&
-                    <Button onClick={() => handleAddCartItem(elemId)} className={'mx-3'} size="small" variant={'contained'}>Add
+                    <Button onClick={() => handleAddCartItem(elemId)} className={'mx-3'} size="small"
+                            variant={'contained'}>Add
                         to Cart</Button>}
-                {inCart && <Button onClick={()=>handleRemoveCartItem(elemId)} className={'mx-3'} color={'error'} size="small"
-                                   variant={'contained'}>Remove from Cart</Button>}
+                {inCart &&
+                    <Button onClick={() => handleRemoveCartItem(elemId)} className={'mx-3'} color={'error'} size="small"
+                            variant={'contained'}>Remove from Cart</Button>}
             </CardActions>
         </Card>
     )

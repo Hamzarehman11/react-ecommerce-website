@@ -2,16 +2,18 @@ import React, {useContext} from "react";
 
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import Logo from "../assets/images/logo.png"
 
 
 import TemporaryDrawer from "./CheckoutDrawer";
 import {Badge, styled} from "@mui/material";
 import DataContext from "../Context/data";
+import {Link} from "react-router-dom";
 
 
 const Navbar = () => {
 
-    const { isFavourite } = useContext(DataContext);
+    const {isFavourite} = useContext(DataContext);
 
     const StyledBadge = styled(Badge)(({theme}) => ({
         '& .MuiBadge-badge': {
@@ -36,7 +38,9 @@ const Navbar = () => {
                         <h6>Accessories</h6>
                     </div>
                     <div className="col-xl-4 col-lg-12 text-center">
-                        <h1>Logo</h1>
+                        <Link to={'/'}>
+                            <img className={'logo'} src={Logo} alt=""/>
+                        </Link>
                     </div>
                     <div
                         className="col-xl-4 col-lg-6 nav-links d-xl-none justify-content-center align-items-center gap-4 d-lg-flex d-md-flex">
