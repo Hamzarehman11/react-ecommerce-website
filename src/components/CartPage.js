@@ -13,6 +13,7 @@ const CartPage = () => {
     const [quantity, setQuantity] = useState(1);
     const [estimatedTax, setEstimatedTax] = useState(0);
     const [unitItemPrice, setUnitItemPrice] = useState(0);
+    const [totalCartPrice, setTotalCartPrice] = useState(0);
 
     const [copyCart,  setCopyCart] = useState(cartItems)
 
@@ -30,13 +31,15 @@ const CartPage = () => {
     });
 
     const handleEstimatedTax = () => {
-        let tax = (estimatedTotal*0.16);
+        let tax = (estimatedTotal*0.16).toFixed(2);
         setEstimatedTax(tax)
     }
 
     useEffect(()=>{
         handleTotalPayment();
         handleEstimatedTax();
+        let total = (Number(estimatedTotal)+Number(estimatedTax)).toFixed(2)
+        setTotalCartPrice(total)
     });
 
 
@@ -65,7 +68,7 @@ const CartPage = () => {
     // console.log(unitItemPrice)
     // console.log(quantity)
 
-    const cartDetails = copyCart.map((elem) => {
+    const cartDetails = cartItems.map((elem) => {
 
         return (
             <>
@@ -160,7 +163,7 @@ const CartPage = () => {
                             <Divider color={'black'}/>
                             <div className={'d-flex justify-content-between'}>
                                 <p className={'payment-summary-total mt-4'}>Total Cost</p>
-                                <p className={'payment-summary-value mt-4'}>$ {estimatedTotal+estimatedTax}</p>
+                                <p className={'payment-summary-value mt-4'}>$ {totalCartPrice}</p>
                             </div>
                         </div>
                     </div>

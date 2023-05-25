@@ -44,6 +44,7 @@ const Provider = ({children}) => {
                 total+=elem.price
             )
         })
+        total = total.toFixed(2)
       setEstimatedTotal(total);
     }
 

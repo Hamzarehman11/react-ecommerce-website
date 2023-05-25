@@ -71,7 +71,7 @@ export default function TemporaryDrawer() {
 
     const list = () => (
         <Box
-            sx={{width: 650, maxHeight: 855, paddingLeft: 5, paddingRight: 25, overflowX: 'hidden', overflowY: 'auto'}}
+            sx={{width: 650, height: 855, paddingLeft: 5, paddingRight: 25, overflowX: 'hidden', overflowY: 'auto'}}
             role="presentation"
         >
             {items}

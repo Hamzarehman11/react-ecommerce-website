@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {Button, Card, CardActions, CardContent, CardMedia, Typography} from "@mui/material";
+import {Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Typography} from "@mui/material";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import DataContext from "../Context/data";
@@ -15,6 +15,7 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
 
     const [inCart, setInCart] = useState(false);
     const [liked, setLiked] = useState(false);
+    const [isAddedToCart, setIsAddedToCart] = useState(false)
 
     const handleInCart = () => {
         if (cartItems) {
@@ -60,7 +61,11 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
     };
 
     useEffect(() => {
-        handleInCart();
+        setIsAddedToCart(true)
+        setTimeout(()=>{
+            handleInCart();
+            setIsAddedToCart(false)
+        },1000)
         handleIsFavourite();
         handleTotalPayment();
     }, [cartItems, isFavourite])
@@ -87,8 +92,7 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
                 {liked && <FavoriteOutlinedIcon onClick={() => handleRemoveFavourite(elemId)} color={'warning'}/>}
                 {!inCart &&
                     <Button onClick={() => handleAddCartItem(elemId)} className={'mx-3'} size="small"
-                            variant={'contained'}>Add
-                        to Cart</Button>}
+                            variant={'contained'}>{isAddedToCart ? <CircularProgress color="inherit" /> : 'Add to Cart'}</Button>}
                 {inCart &&
                     <Button onClick={() => handleRemoveCartItem(elemId)} className={'mx-3'} color={'error'} size="small"
                             variant={'contained'}>Remove from Cart</Button>}
