@@ -3,6 +3,7 @@ import {Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Typ
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import DataContext from "../Context/data";
+import Box from "@mui/material/Box";
 
 
 const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight, minHeight, mediaHeight}) => {
@@ -51,8 +52,12 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
     };
 
     const handleAddCartItem = (id) => {
+        setIsAddedToCart(true)
         handleInCart()
-        handleAddToCart(id);
+        setTimeout(() => {
+            handleAddToCart(id);
+            setIsAddedToCart(false)
+        }, 1000)
     };
 
     const handleAddFavourite = (id) => {
@@ -61,11 +66,7 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
     };
 
     useEffect(() => {
-        setIsAddedToCart(true)
-        setTimeout(()=>{
-            handleInCart();
-            setIsAddedToCart(false)
-        },1000)
+        handleInCart();
         handleIsFavourite();
         handleTotalPayment();
     }, [cartItems, isFavourite])
@@ -92,7 +93,11 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
                 {liked && <FavoriteOutlinedIcon onClick={() => handleRemoveFavourite(elemId)} color={'warning'}/>}
                 {!inCart &&
                     <Button onClick={() => handleAddCartItem(elemId)} className={'mx-3'} size="small"
-                            variant={'contained'}>{isAddedToCart ? <CircularProgress color="inherit" /> : 'Add to Cart'}</Button>}
+                            variant={'contained'} disabled={isAddedToCart}>{isAddedToCart ?
+                        <Box sx={{display: 'flex', alignItems: 'center'}}>
+                            <CircularProgress color="inherit" size={20}/>
+                        </Box>
+                        : 'Add to Cart'}</Button>}
                 {inCart &&
                     <Button onClick={() => handleRemoveCartItem(elemId)} className={'mx-3'} color={'error'} size="small"
                             variant={'contained'}>Remove from Cart</Button>}

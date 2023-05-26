@@ -35,26 +35,20 @@ const CartPage = () => {
         setEstimatedTax(tax)
     }
 
-    useEffect(()=>{
-        handleTotalPayment();
-        handleEstimatedTax();
-        let total = (Number(estimatedTotal)+Number(estimatedTax)).toFixed(2)
-        setTotalCartPrice(total)
-    });
 
 
 
 
-    const handleItemQty = (event,id) => {
-        const selectedQuantity = event.target.value;
+    const handleItemQty = (id) => {
+        // const selectedQuantity = event.target.value;
         const currentItem = cartItems.find((item) => item.id === id);// Assuming elem is the current item in the cartDetails loop
         const pricePerItem = currentItem.price; // Get the base price of the item
-        const itemUnitPrice = pricePerItem * selectedQuantity; // Calculate the unit price based on the quantity
+        const itemUnitPrice = pricePerItem * quantity; // Calculate the unit price based on the quantity
         setUnitItemPrice(itemUnitPrice); // Set the unit price in state
-        setQuantity(selectedQuantity);
+        // setQuantity(selectedQuantity);
         setCopyCart((prevItems) =>
             prevItems.map((item) =>
-                item.id === id ? { ...item, quantity: selectedQuantity, totalPrice:unitItemPrice } : item
+                item.id === id ? { ...item, quantity, totalPrice:unitItemPrice } : item
             )
         );
 
@@ -63,10 +57,18 @@ const CartPage = () => {
     };
 
 
+    useEffect(()=>{
+        // handleItemQty()
+        handleTotalPayment();
+        handleEstimatedTax();
+        let total = (Number(estimatedTotal)+Number(estimatedTax)).toFixed(2)
+        setTotalCartPrice(total)
+    });
 
-    // console.log(cartItems)
+
+    console.log(cartItems)
+    console.log(copyCart)
     // console.log(unitItemPrice)
-    // console.log(quantity)
 
     const cartDetails = cartItems.map((elem) => {
 
@@ -90,9 +92,9 @@ const CartPage = () => {
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="item-qty"
-                                                value={elem.quantity}
+                                                value={quantity}
                                                 label="Age"
-                                                onChange={(event)=>handleItemQty(event,elem.id)}
+                                                onChange={handleChange}
                                             >
                                                 {qtyMenu}
                                             </Select>
