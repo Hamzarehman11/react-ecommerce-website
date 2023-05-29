@@ -10,15 +10,19 @@ const CartPage = () => {
 
     const {cartItems, handleRemoveFromCart, estimatedTotal, handleTotalPayment} = useContext(DataContext);
 
-    const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState({});
     const [estimatedTax, setEstimatedTax] = useState(0);
     const [unitItemPrice, setUnitItemPrice] = useState(0);
     const [totalCartPrice, setTotalCartPrice] = useState(0);
 
     const [copyCart,  setCopyCart] = useState(cartItems)
 
-    const handleChange = (event) => {
-        setQuantity(event.target.value);
+    const handleChange = (event,elemId) => {
+        const { value } = event.target;
+        setQuantity((prevSelectedValues) => ({
+            ...prevSelectedValues,
+            [elemId]: value,
+        }));
     };
 
 
@@ -46,11 +50,11 @@ const CartPage = () => {
         const itemUnitPrice = pricePerItem * quantity; // Calculate the unit price based on the quantity
         setUnitItemPrice(itemUnitPrice); // Set the unit price in state
         // setQuantity(selectedQuantity);
-        setCopyCart((prevItems) =>
-            prevItems.map((item) =>
-                item.id === id ? { ...item, quantity, totalPrice:unitItemPrice } : item
-            )
-        );
+        // setCopyCart((prevItems) =>
+        //     prevItems.map((item) =>
+        //         item.id === id ? { ...item, quantity, totalPrice:unitItemPrice } : item
+        //     )
+        // );
 
         // setCopyCart(updatedArray)
         // console.log(updatedArray)
@@ -58,7 +62,7 @@ const CartPage = () => {
 
 
     useEffect(()=>{
-        // handleItemQty()
+        // handleItemQty(4)
         handleTotalPayment();
         handleEstimatedTax();
         let total = (Number(estimatedTotal)+Number(estimatedTax)).toFixed(2)
@@ -66,9 +70,8 @@ const CartPage = () => {
     });
 
 
-    console.log(cartItems)
-    console.log(copyCart)
-    // console.log(unitItemPrice)
+    console.log(quantity)
+
 
     const cartDetails = cartItems.map((elem) => {
 
@@ -88,13 +91,13 @@ const CartPage = () => {
                                 <div>
                                     <Box sx={{maxWidth: 110}}>
                                         <FormControl fullWidth>
-                                            <InputLabel id="item-qty">Qty</InputLabel>
+                                            <InputLabel id={elem.id}>Qty</InputLabel>
                                             <Select
                                                 labelId="demo-simple-select-label"
-                                                id="item-qty"
-                                                value={quantity}
+                                                id={elem.id}
+                                                value={quantity[elem.id] || 1}
                                                 label="Age"
-                                                onChange={handleChange}
+                                                onChange={(event) => handleChange(event, elem.id)}
                                             >
                                                 {qtyMenu}
                                             </Select>

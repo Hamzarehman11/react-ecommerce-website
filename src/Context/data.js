@@ -7,6 +7,7 @@ const DataContext = createContext({})
 const Provider = ({children}) => {
 
     const [productList, setProductList] = useState([]);
+    const [product, setProduct] = useState({})
     const [cartItems, setCartItems] = useState([]);
     const [isFavourite, setIsFavourite] = useState([]);
     const [estimatedTotal, setEstimatedTotal] = useState(0);
@@ -54,12 +55,19 @@ const Provider = ({children}) => {
         axios.get('https://fakestoreapi.com/products').then(({data}) => {
             setProductList(data)
         })
-
     };
+
+    const getProduct = (id) => {
+        axios.get(`https://fakestoreapi.com/products/${id}`).then(({data}) => {
+            setProduct(data)
+        })
+
+    }
 
 
     const value = {
         productList,
+        product,
         cartItems,
         isFavourite,
         estimatedTotal,
@@ -68,7 +76,8 @@ const Provider = ({children}) => {
         fetchProducts,
         handleAddToFavourites,
         handleRemoveFromFavourites,
-        handleTotalPayment
+        handleTotalPayment,
+        getProduct
     }
 
 

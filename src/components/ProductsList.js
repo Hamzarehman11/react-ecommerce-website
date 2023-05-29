@@ -8,6 +8,7 @@ const ProductsList = () => {
 
     const {productList} = useContext(DataContext);
 
+
     const productCard = productList.map((elem) => {
 
         return (

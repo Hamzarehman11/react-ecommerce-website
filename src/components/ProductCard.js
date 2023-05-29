@@ -4,6 +4,7 @@ import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import DataContext from "../Context/data";
 import Box from "@mui/material/Box";
+import {useNavigate} from "react-router-dom";
 
 
 const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight, minHeight, mediaHeight}) => {
@@ -11,8 +12,10 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
 
     const {
         cartItems, handleAddToCart, handleRemoveFromCart, handleAddToFavourites, handleRemoveFromFavourites,
-        isFavourite, handleTotalPayment
+        isFavourite, handleTotalPayment,getProduct
     } = useContext(DataContext);
+
+    const navigate = useNavigate();
 
     const [inCart, setInCart] = useState(false);
     const [liked, setLiked] = useState(false);
@@ -40,30 +43,39 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
         }
     }
 
-    const handleRemoveCartItem = (id) => {
+    const handleRemoveCartItem = (event, id) => {
         handleInCart();
         handleRemoveFromCart(id);
         handleTotalPayment();
+        event.stopPropagation();
     };
 
-    const handleRemoveFavourite = (id) => {
+    const handleRemoveFavourite = (event, id) => {
         handleIsFavourite();
         handleRemoveFromFavourites(id);
+        event.stopPropagation();
     };
 
-    const handleAddCartItem = (id) => {
+    const handleAddCartItem = (event, id) => {
         setIsAddedToCart(true)
         handleInCart()
         setTimeout(() => {
             handleAddToCart(id);
             setIsAddedToCart(false)
         }, 1000)
+        event.stopPropagation();
     };
 
-    const handleAddFavourite = (id) => {
+    const handleAddFavourite = (event, id) => {
         handleIsFavourite();
         handleAddToFavourites(id);
+        event.stopPropagation();
     };
+
+    const handleProductClick = () => {
+        getProduct(elemId)
+        navigate('/product/item/:id');
+    }
 
     useEffect(() => {
         handleInCart();
@@ -72,8 +84,10 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
     }, [cartItems, isFavourite])
 
 
+
     return (
-        <Card className={'product-card'} sx={{maxWidth, minWidth, maxHeight, minHeight, marginLeft: 5, marginTop: 5}}>
+        <Card onClick={() => handleProductClick()} className={'product-card'}
+              sx={{maxWidth, minWidth, maxHeight, minHeight, marginLeft: 5, marginTop: 5}}>
             <CardMedia
                 component="img"
                 alt="green iguana"
@@ -89,17 +103,19 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
                 </Typography>
             </CardContent>
             <CardActions>
-                {!liked && <FavoriteBorderRoundedIcon onClick={() => handleAddFavourite(elemId)} color={'warning'}/>}
-                {liked && <FavoriteOutlinedIcon onClick={() => handleRemoveFavourite(elemId)} color={'warning'}/>}
+                {!liked &&
+                    <FavoriteBorderRoundedIcon onClick={(e) => handleAddFavourite(e, elemId)} color={'warning'}/>}
+                {liked && <FavoriteOutlinedIcon onClick={(e) => handleRemoveFavourite(e, elemId)} color={'warning'}/>}
                 {!inCart &&
-                    <Button onClick={() => handleAddCartItem(elemId)} className={'mx-3'} size="small"
+                    <Button onClick={(e) => handleAddCartItem(e, elemId)} className={'mx-3'} size="small"
                             variant={'contained'} disabled={isAddedToCart}>{isAddedToCart ?
                         <Box sx={{display: 'flex', alignItems: 'center'}}>
                             <CircularProgress color="inherit" size={20}/>
                         </Box>
                         : 'Add to Cart'}</Button>}
                 {inCart &&
-                    <Button onClick={() => handleRemoveCartItem(elemId)} className={'mx-3'} color={'error'} size="small"
+                    <Button onClick={(e) => handleRemoveCartItem(e, elemId)} className={'mx-3'} color={'error'}
+                            size="small"
                             variant={'contained'}>Remove from Cart</Button>}
             </CardActions>
         </Card>

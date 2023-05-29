@@ -7,11 +7,14 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ProductCard from "./ProductCard";
 
 import axios from "axios";
+import {useContext} from "react";
+import DataContext from "../Context/data";
 
 
 const ProductItem = () => {
 
-    const [likeable, setLikeable] = useState([])
+    const {product} = useContext(DataContext);
+    const [likeable, setLikeable] = useState([]);
 
 
     const showData = () => {
@@ -26,22 +29,23 @@ const ProductItem = () => {
     }, [])
 
 
-    const productItem = {
-        category: "men's clothing",
-        description: "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-        id: 1,
-        image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-        price: 109.95,
-        rating: {rate: 3.9, count: 120},
-        title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-    }
+    //
+    // const productItem = {
+    //     category: "men's clothing",
+    //     description: "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+    //     id: 1,
+    //     image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+    //     price: 109.95,
+    //     rating: {rate: 3.9, count: 120},
+    //     title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+    // }
 
     const likeableProducts = likeable.map((elem) => {
         return (
 
-            <ProductCard title={elem.title} price={elem.price} image={elem.image}
+            <ProductCard elemId={elem.id} title={elem.title} price={elem.price} image={elem.image}
                          minWidth={245} maxWidth={245}
-                         maxHeight={380} minHeight={380} mediaHeight={220}/>
+                         maxHeight={380} minHeight={380} mediaHeight={220} />
         )
     })
 
@@ -49,15 +53,15 @@ const ProductItem = () => {
         <div className={'container-fluid mt-5'}>
             <div className="row">
                 <div className="col-6 text-center">
-                    <img className={'w-50'} src={productItem.image}/>
+                    <img className={'w-50'} src={product.image}/>
                 </div>
                 <div className="col-6 mt-5 d-flex flex-column justify-content-between">
                     <div className="row">
                         <div className="col-12">
-                            <h4>{productItem.title}</h4>
-                            <Rating name="read-only" value={productItem.rating.rate} readOnly/>
-                            <h5>Price: ${productItem.price}</h5>
-                            <p className={"mt-5"}>{productItem.description}</p>
+                            <h4>{product.title}</h4>
+                            <Rating name="read-only" value={product.rating.rate} readOnly/>
+                            <h5>Price: ${product.price}</h5>
+                            <p className={"mt-5"}>{product.description}</p>
                         </div>
                     </div>
                     <div className="row">
