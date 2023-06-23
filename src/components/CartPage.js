@@ -8,22 +8,17 @@ import DataContext from "../Context/data";
 
 const CartPage = () => {
 
-    const {cartItems, handleRemoveFromCart, estimatedTotal, handleTotalPayment} = useContext(DataContext);
+    const {
+        cartItems,
+        quantity,
+        handleRemoveFromCart,
+        estimatedTotal,
+        handleTotalPayment,
+        handleQtyChange
+    } = useContext(DataContext);
 
-    const [quantity, setQuantity] = useState({});
-    const [estimatedTax, setEstimatedTax] = useState(0);
-    const [unitItemPrice, setUnitItemPrice] = useState(0);
-    const [totalCartPrice, setTotalCartPrice] = useState(0);
-
-    const [copyCart,  setCopyCart] = useState(cartItems)
-
-    const handleChange = (event,elemId) => {
-        const { value } = event.target;
-        setQuantity((prevSelectedValues) => ({
-            ...prevSelectedValues,
-            [elemId]: value,
-        }));
-    };
+    const [estimatedTax, setEstimatedTax] = useState('');
+    const [totalCartPrice, setTotalCartPrice] = useState('');
 
 
     const qty = [1, 2, 3, 4, 5, 6];
@@ -34,47 +29,26 @@ const CartPage = () => {
         )
     });
 
+    // calculating product cost if more than one
+    const totalPrice = (unitPrice, qty) => {
+        return Number(unitPrice) * Number(qty)
+    };
+
     const handleEstimatedTax = () => {
-        let tax = (estimatedTotal*0.16).toFixed(2);
+        let tax = (estimatedTotal * 0.16).toFixed(2);
         setEstimatedTax(tax)
-    }
-
-
-
-
-
-    const handleItemQty = (id) => {
-        // const selectedQuantity = event.target.value;
-        const currentItem = cartItems.find((item) => item.id === id);// Assuming elem is the current item in the cartDetails loop
-        const pricePerItem = currentItem.price; // Get the base price of the item
-        const itemUnitPrice = pricePerItem * quantity; // Calculate the unit price based on the quantity
-        setUnitItemPrice(itemUnitPrice); // Set the unit price in state
-        // setQuantity(selectedQuantity);
-        // setCopyCart((prevItems) =>
-        //     prevItems.map((item) =>
-        //         item.id === id ? { ...item, quantity, totalPrice:unitItemPrice } : item
-        //     )
-        // );
-
-        // setCopyCart(updatedArray)
-        // console.log(updatedArray)
     };
 
 
-    useEffect(()=>{
-        // handleItemQty(4)
+    useEffect(() => {
         handleTotalPayment();
         handleEstimatedTax();
-        let total = (Number(estimatedTotal)+Number(estimatedTax)).toFixed(2)
+        let total = (Number(estimatedTotal) + Number(estimatedTax)).toFixed(2)
         setTotalCartPrice(total)
     });
 
 
-    console.log(quantity)
-
-
     const cartDetails = cartItems.map((elem) => {
-
         return (
             <>
                 <div key={elem.id} className="row mt-3">
@@ -97,7 +71,7 @@ const CartPage = () => {
                                                 id={elem.id}
                                                 value={quantity[elem.id] || 1}
                                                 label="Age"
-                                                onChange={(event) => handleChange(event, elem.id)}
+                                                onChange={(event) => handleQtyChange(event, elem.id)}
                                             >
                                                 {qtyMenu}
                                             </Select>
@@ -116,7 +90,8 @@ const CartPage = () => {
                             </div>
                             <div className="col-6 text-end">
                                 <span>Total: </span>
-                                <span className={'cart-total-item-price'}>${elem.totalPrice}</span>
+                                <span
+                                    className={'cart-total-item-price'}>${totalPrice(elem.price, quantity[elem.id] ? quantity[elem.id] : 1)}</span>
                             </div>
                         </div>
                     </div>
@@ -199,3 +174,4 @@ const CartPage = () => {
 
 
 export default CartPage
+
