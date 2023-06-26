@@ -12,6 +12,7 @@ const Provider = ({children}) => {
     const [isFavourite, setIsFavourite] = useState([]);
     const [estimatedTotal, setEstimatedTotal] = useState(0);
     const [quantity, setQuantity] = useState({});
+    const [searchTerm, setSearchTerm] = useState('');
 
     const handleAddToCart = (id) => {
         let cartProd = productList.filter((elem) => elem.id === id);
@@ -38,6 +39,11 @@ const Provider = ({children}) => {
         let updatedArr = isFavourite.filter((elem) => elem.id !== deletedItem.map((elem) => elem.id));
         setIsFavourite(updatedArr);
     };
+
+
+    const handleSearchTerm = (e) => {
+        setSearchTerm(e.target.value)
+    }
 
     const handleQtyChange = (event, elemId) => {
         const {value} = event.target;
@@ -91,6 +97,7 @@ const Provider = ({children}) => {
         isFavourite,
         estimatedTotal,
         quantity,
+        searchTerm,
         handleAddToCart,
         handleRemoveFromCart,
         fetchProducts,
@@ -99,6 +106,7 @@ const Provider = ({children}) => {
         handleTotalPayment,
         getProduct,
         handleQtyChange,
+        handleSearchTerm
     }
 
 

@@ -12,7 +12,7 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
 
     const {
         cartItems, handleAddToCart, handleRemoveFromCart, handleAddToFavourites, handleRemoveFromFavourites,
-        isFavourite, handleTotalPayment,getProduct
+        isFavourite, handleTotalPayment, getProduct
     } = useContext(DataContext);
 
     const navigate = useNavigate();
@@ -74,7 +74,7 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
 
     const handleProductClick = () => {
         getProduct(elemId)
-        navigate('/product/item/:id');
+        navigate('/product');
     }
 
     useEffect(() => {
@@ -82,7 +82,6 @@ const ProductCard = ({elemId, image, title, price, maxWidth, minWidth, maxHeight
         handleIsFavourite();
         handleTotalPayment();
     }, [cartItems, isFavourite])
-
 
 
     return (

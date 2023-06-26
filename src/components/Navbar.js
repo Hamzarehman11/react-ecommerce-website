@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -13,7 +13,8 @@ import {Link} from "react-router-dom";
 
 const Navbar = () => {
 
-    const {isFavourite} = useContext(DataContext);
+    const {isFavourite,handleSearchTerm} = useContext(DataContext);
+
 
     const StyledBadge = styled(Badge)(({theme}) => ({
         '& .MuiBadge-badge': {
@@ -52,7 +53,7 @@ const Navbar = () => {
                     <div className="col-xl-4 col-lg-6 d-flex justify-content-center align-items-center">
                         <div className="col-8">
                             <SearchIcon/>
-                            <input className={'search-input'} type="text"
+                            <input onChange={(e)=>handleSearchTerm(e)} className={'search-input'} type="text"
                                    placeholder={"What are you looking for?"}/>
                         </div>
                         <div className="col-4">

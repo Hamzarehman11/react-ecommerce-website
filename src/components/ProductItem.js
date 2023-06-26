@@ -24,21 +24,6 @@ const ProductItem = () => {
 
     }
 
-    useEffect(() => {
-        showData();
-    }, [])
-
-
-    //
-    // const productItem = {
-    //     category: "men's clothing",
-    //     description: "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-    //     id: 1,
-    //     image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-    //     price: 109.95,
-    //     rating: {rate: 3.9, count: 120},
-    //     title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-    // }
 
     const likeableProducts = likeable.map((elem) => {
         return (
@@ -47,19 +32,24 @@ const ProductItem = () => {
                          minWidth={245} maxWidth={245}
                          maxHeight={380} minHeight={380} mediaHeight={220} />
         )
-    })
+    });
+
+
+    useEffect(() => {
+        showData();
+    }, [])
 
     return (
         <div className={'container-fluid mt-5'}>
             <div className="row">
                 <div className="col-6 text-center">
-                    <img className={'w-50'} src={product.image}/>
+                    <img className={'w-50'} src={product.image} alt={product.title} />
                 </div>
                 <div className="col-6 mt-5 d-flex flex-column justify-content-between">
                     <div className="row">
                         <div className="col-12">
                             <h4>{product.title}</h4>
-                            <Rating name="read-only" value={product.rating.rate} readOnly/>
+                            <Rating name="read-only" value={product.rating?.rate} readOnly/>
                             <h5>Price: ${product.price}</h5>
                             <p className={"mt-5"}>{product.description}</p>
                         </div>
